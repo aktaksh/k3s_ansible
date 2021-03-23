@@ -1,6 +1,6 @@
 # Build a Kubernetes cluster using k3s via Ansible
 
-Author: <https://github.com/itwars>
+The given code is taken from k3s official repo and modified to meet requirements of env.
 
 ## K3s Ansible Playbook
 
@@ -13,8 +13,7 @@ Build a Kubernetes cluster using Ansible with k3s. The goal is easily install a 
 on processor architecture:
 
 - [X] x64
-- [X] arm64
-- [X] armhf
+
 
 ## System requirements
 
@@ -33,10 +32,16 @@ Second, edit `inventory/my-cluster/hosts.ini` to match the system information ga
 
 ```bash
 [master]
-192.16.35.12
+192.10.10.1   --> first entry this will use as main master
+193.10.10.2
 
 [node]
-192.16.35.[10:11]
+192.192.10.2
+192.192.10.1
+192.192.10.3
+192.192.10.5
+
+
 
 [k3s_cluster:children]
 master
@@ -49,6 +54,8 @@ Start provisioning of the cluster using the following command:
 
 ```bash
 ansible-playbook site.yml -i inventory/my-cluster/hosts.ini
+OR if using Python3
+ansible-playbook site.yml -i inventory/sample/hosts.ini -e 'ansible_python_interpreter=/usr/bin/python3'
 ```
 
 ## Kubeconfig
